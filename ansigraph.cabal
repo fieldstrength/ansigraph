@@ -2,9 +2,23 @@ name:                ansigraph
 version:             0.0.9.0
 synopsis:            Terminal-based graphing via ANSI and Unicode
 
-description:         An ultralightweight terminal-based graphing utility, using unicode
+description:         An ultralightweight terminal-based graphing utility. Uses unicode
                      characters and ANSI escape codes to display and animate colored graphs of
-                     vectors/functions in real or complex variables.
+                     vectors/functions in real and complex variables.
+                     .
+                     This functionality is provided by a 'Graphable' type class, whose method
+                     'graphWith' draws a graph at the terminal. Another function `animateWith`
+                     takes a list of Graphable elements and displays an animation by rendering them
+                     in sequence. Both of these functions take an options record as an argument.
+                     The 'graph' and 'animate' functions are defined to use the default options,
+                     and the user can define similar functions based on their own settings.
+                     .
+                     The package is intended to be used on of two ways. One can import
+                     "System.Console.AnsiGraph" which provides 'Graphable' instances for newtype
+                     wrappers that contain the data to be graphed. However, if the FlexibleInstances
+                     extension is acceptable, then importing "System.Console.AnsiGraph.Flex" may be
+                     preferable for allowing the functions of the 'Graphable' class to be called
+                     directly on lists of real or complex floating-point data.
 
 homepage:            https://github.com/BlackBrane/ansigraph
 license:             MIT

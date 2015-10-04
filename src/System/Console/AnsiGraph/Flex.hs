@@ -1,42 +1,13 @@
 {-# LANGUAGE FlexibleInstances #-}
 
+-- | This module reexports the main "System.Console.AnsiGraph" module, as well as
+--   "System.Console.AnsiGraph.FlexInstances", providing FlexibleInstances which conveniently
+--   eliminates the need for wrapper types when using the 'Graphable' class.
 module System.Console.AnsiGraph.Flex (
-    module System.Console.AnsiGraph.Flex
+    module System.Console.AnsiGraph.Internal.FlexInstances
   , module System.Console.AnsiGraph
 ) where
 
 
-import Data.Complex
-
 import System.Console.AnsiGraph
-
-
-instance Graphable [Double] where
-  graphWith = displayRV
-
-instance Graphable [Complex Double] where
-  graphWith = displayCV
-
-instance Graphable [[Double]] where
-  graphWith = displayMat
-
-instance Graphable [[Complex Double]] where
-  graphWith = displayMatC
-
-{-}
-
-
-instance Graphable PosGraph where
-  graphWith s = let n = vertScale s in mapM_ putStrLn . multiRender n . unPosGraph
-
-instance Graphable Graph where
-  graphWith s = displayRV s . unGraph
-
-instance Graphable GraphC where
-  graphWith s = displayCV s . unGraphC
-
-instance Graphable VectGraph where
-  graphWith s = displayRV s . toList . unVectGraph
-
-instance Graphable VectGraphC where
-  graphWith s = displayCV s . toList . unVectGraphC -}
+import System.Console.AnsiGraph.Internal.FlexInstances

@@ -1,7 +1,7 @@
 module System.Console.AnsiGraph.Internal.Matrix (
     matShow
   , displayMat
-  , displayMatC
+  , displayCMat
 ) where
 
 import System.Console.AnsiGraph.Internal.Core
@@ -33,13 +33,16 @@ selectBlock x = let l = filter (\p -> fst p < abs x) blocks in case l of
   []     -> ' '
   (p:ss) -> snd p
 
-
+-- | Given a matrix of Doubles, return the list of strings illustrating the absolute value
+--   of each entry relative to the largest, via unicode chars that denote a particular density.
 matShow :: [[Double]] -> [String]
 matShow m = let mx = mmax m
             in  mmap (selectBlock . (/ mx)) m
 
+-- | Use ANSI coloring (specified by an 'AGSettings') to visually display a Real matrix.
 displayMat :: AGSettings -> [[Double]] -> IO ()
 displayMat s m = withColoring (realColors s) . mapM_ putStrLn $ matShow m
 
-displayMatC :: AGSettings -> [[Complex Double]] -> IO ()
-displayMatC s m = displayMat s $ mmap magnitude m
+-- | Use ANSI coloring (specified by an 'AGSettings') to visually display a Complex matrix.
+displayCMat :: AGSettings -> [[Complex Double]] -> IO ()
+displayCMat s m = displayMat s $ mmap magnitude m

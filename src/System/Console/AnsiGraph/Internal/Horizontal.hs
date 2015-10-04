@@ -36,11 +36,16 @@ selectBarR x = let l = filter (\p -> fst p < x) barsR in case l of
   []     -> '█'
   (p:ss) -> snd p
 
-
-simpleRender, simpleRenderR :: [Double] -> String
+-- | Simple vector rendering. Yields a string of unicode chars representing graph bars
+--   varying in units of 1/8. To be primarily invoked via 'graph', 'graphWith',
+--   'animate', 'animateWith'.
+simpleRender :: [Double] -> String
 simpleRender xs = let mx = maximum xs in
                   (selectBar . (/mx)) <$> xs
 
+-- | Simple vector rendering – inverted version. Rarely used directly.
+--   It is needed to render negative graph regions.
+simpleRenderR :: [Double] -> String
 simpleRenderR xs = let mx = maximum xs in
                    (selectBarR . (/mx)) <$> xs
 
@@ -63,7 +68,8 @@ renderRV l = let rp = l
   in (selectBar  . (/mx) <$> rp,
       selectBarR . (/mx) <$> rm)
 
-
+-- | ANSI based display for complex vectors. To be primarily invoked via 'graph', 'graphWith',
+--   'animate', 'animateWith'.
 displayCV :: AGSettings -> [Complex Double] -> IO ()
 displayCV s l = let (rp,rm,ip,im) = renderCV l
                     (rcol,icol) = colorSets s
@@ -72,6 +78,8 @@ displayCV s l = let (rp,rm,ip,im) = renderCV l
         withColoring icol          $ putStr ip
         withColoring (invert icol) $ putStr im
 
+-- | ANSI based display for real vectors. To be primarily invoked via 'graph', 'graphWith',
+--   'animate', 'animateWith'.
 displayRV :: AGSettings -> [Double] -> IO ()
 displayRV s l = let (rp,rm) = renderRV l
                     rcol = realColors s
