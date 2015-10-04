@@ -1,4 +1,3 @@
-
 -- | A module that exports some simple demonstrations of how to use the package.
 module System.Console.AnsiGraph.Examples (
     waveDemo

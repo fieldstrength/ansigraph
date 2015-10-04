@@ -4,15 +4,17 @@
 --
 --   This functionality is provided by a 'Graphable' type class.
 --
---   It is intended to be used in on of two ways:
+--   __Ansigraph is intended to be used in on of two ways:__
 --
---   * It may be imported directly.
---   This module allows for graphing of data in one of several newtype wrappers.
+--   * __By importing "System.Console.AnsiGraph" directly.__
+--     This module allows for graphing of data contained in one of several newtype wrappers:
+--     'Graph', 'PosGraph', 'CGraph', 'Mat', 'CMat'.
 --
 --
---   * If the FlexibleInstances extension is acceptable, then importing
---   "System.Console.AnsiGraph.Flex" may be preferable for allowing the functions of the
---   'Graphable' class to be called directly on lists of real or complex floating-point data.
+--   * __Importing "System.Console.AnsiGraph.Flex"__ which activates the FlexibleInstances
+--   extension.
+--   It allows easier use of the 'Graphable' class by providing direct instances of data lists,
+--   rather than only the wrapper newtypes, which remain available.
 module System.Console.AnsiGraph (
 
   -- * Core Functionality
