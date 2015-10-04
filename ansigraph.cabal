@@ -31,10 +31,19 @@ build-type:          Simple
 
 cabal-version:       >=1.10
 
+source-repository head
+  type:     git
+  location: git://github.com/BlackBrane/ansigraph.git
+
 library
   exposed-modules:     System.Console.AnsiGraph,
                        System.Console.AnsiGraph.Flex,
                        System.Console.AnsiGraph.Examples
+
+  other-modules:       System.Console.AnsiGraph.Internal.Core,
+                       System.Console.AnsiGraph.Internal.FlexInstances,
+                       System.Console.AnsiGraph.Internal.Horizontal,
+                       System.Console.AnsiGraph.Internal.Matrix
 
   build-depends:       base >=4.8 && <4.9, ansi-terminal >=0.6 && <0.7
   hs-source-dirs:      src
