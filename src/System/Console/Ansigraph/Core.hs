@@ -29,7 +29,6 @@ module System.Console.Ansigraph.Core (
 
   -- *** Default options
   , graphDefaults
-  , defaultScaling
   , blue, pink, white
 
   -- *** ANSI data
@@ -45,7 +44,6 @@ module System.Console.Ansigraph.Core (
   , setBG
   , lineClear
   , applyColor
-  , withColoring
 
   -- * Graphable wrapper types
   , Graph (..)
@@ -58,6 +56,7 @@ module System.Console.Ansigraph.Core (
   -- *** Horizontal vector graphing
   , displayRV
   , displayCV
+  , displayPV
   , simpleRender
   , simpleRenderR
 
@@ -151,7 +150,7 @@ instance Graphable CGraph where
   graphWith s = displayCV s . unCGraph
 
 instance Graphable PosGraph where
-  graphWith s = withColoring (realColors s) . putStrLn . simpleRender . unPosGraph
+  graphWith s = displayPV s . unPosGraph
 
 instance Graphable Mat where
   graphWith s = displayMat s . unMat

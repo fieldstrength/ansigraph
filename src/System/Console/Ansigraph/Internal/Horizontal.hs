@@ -1,12 +1,14 @@
 module System.Console.Ansigraph.Internal.Horizontal (
     displayRV
   , displayCV
+  , displayPV
   , simpleRender
   , simpleRenderR
 ) where
 
 import System.Console.Ansigraph.Internal.Core
 import Data.Complex
+import System.IO (hFlush, stdout)
 
 ---- Graphing Infrastructure  ----
 
@@ -72,15 +74,21 @@ renderRV l = let rp = l
 displayCV :: AGSettings -> [Complex Double] -> IO ()
 displayCV s l = let (rp,rm,ip,im) = renderCV l
                     (rcol,icol) = colorSets s
-  in do withColoring rcol          $ putStr rp
-        withColoring (invert rcol) $ putStr rm
-        withColoring icol          $ putStr ip
-        withColoring (invert icol) $ putStr im
+  in do colorStrLn rcol          rp
+        colorStrLn (invert rcol) rm
+        colorStrLn icol          ip
+        colorStrLn (invert icol) im
 
 -- | ANSI based display for real vectors. To be primarily invoked via 'graph', 'graphWith',
 --   'animate', 'animateWith'.
 displayRV :: AGSettings -> [Double] -> IO ()
 displayRV s l = let (rp,rm) = renderRV l
                     rcol = realColors s
-  in do withColoring rcol          $ putStr rp
-        withColoring (invert rcol) $ putStr rm
+  in do colorStrLn rcol          rp
+        colorStrLn (invert rcol) rm
+
+-- | ANSI based display for positive real vectors. To be primarily invoked via 'graph', 'graphWith',
+--   'animate', 'animateWith'.
+displayPV :: AGSettings -> [Double] -> IO ()
+displayPV s l = let (rp,_) = renderRV l
+                    rcol = realColors s in colorStrLn rcol rp

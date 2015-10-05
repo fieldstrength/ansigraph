@@ -5,6 +5,7 @@ module System.Console.Ansigraph.Examples (
   , waveDemoP
   , showColors
   , demo
+  , wave
 ) where
 
 import System.Console.Ansigraph

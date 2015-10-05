@@ -2,7 +2,6 @@ module System.Console.Ansigraph.Internal.Core (
     AnsiColor (..)
   , AGSettings (..)
   , blue, pink, white
-  , defaultScaling
   , graphDefaults
   , Coloring (..)
   , realColors
@@ -13,10 +12,12 @@ module System.Console.Ansigraph.Internal.Core (
   , setBG
   , lineClear
   , applyColor
-  , withColoring
+  , colorStr
+  , colorStrLn
 ) where
 
 import System.Console.ANSI
+import System.IO (hFlush, stdout)
 
 ---- Basics ----
 
@@ -48,11 +49,7 @@ pink   = AnsiColor Vivid Magenta
 white  = AnsiColor Vivid White
 yellow = AnsiColor Vivid Yellow
 
--- | Default scaling function.
-defaultScaling :: Int -> Int
-defaultScaling = min 80
-
-graphDefaults = AGSettings blue pink white white 15 defaultScaling
+graphDefaults = AGSettings blue pink white white 15 (max 150)
 
 -- | Holds two 'AnsiColor's representing foreground and background colors for display via ANSI.
 data Coloring = Coloring AnsiColor AnsiColor deriving Show
@@ -85,16 +82,23 @@ setBG (AnsiColor ci c) = SetColor Background ci c
 
 -- | Clear any SGR color settings and then print a new line.
 lineClear :: IO ()
-lineClear = setSGR [Reset] >> putStrLn ""
+lineClear = setSGR [Reset] >> putStrLn "" >> hFlush stdout
+
+-- | Clear any SGR color settings and then print a new line.
+clear :: IO ()
+clear = setSGR [Reset] >> hFlush stdout
+
 
 -- | Apply both foreground and background color.
 applyColor :: Coloring -> IO ()
 applyColor (Coloring fg bg) = setSGR [setFG fg, setBG bg]
 
--- | Apply the supplied foreground and background coloring, then perform the supplied IO action,
---   before reverting color settings and printing a new line.
-withColoring :: Coloring -> IO () -> IO ()
-withColoring clr io = do
-  applyColor clr
-  io
-  lineClear
+colorStr :: Coloring -> String -> IO ()
+colorStr c s = do applyColor c
+                  putStr s
+                  clear
+
+colorStrLn :: Coloring -> String -> IO ()
+colorStrLn c s = do applyColor c
+                    putStr s
+                    lineClear
