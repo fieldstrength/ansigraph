@@ -1,11 +1,10 @@
-module System.Console.AnsiGraph.Internal.Matrix (
+module System.Console.Ansigraph.Internal.Matrix (
     matShow
   , displayMat
   , displayCMat
 ) where
 
-import System.Console.AnsiGraph.Internal.Core
-
+import System.Console.Ansigraph.Internal.Core
 import Data.Complex
 
 ---- Matrices ----

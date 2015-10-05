@@ -1,12 +1,11 @@
-module System.Console.AnsiGraph.Internal.Horizontal (
+module System.Console.Ansigraph.Internal.Horizontal (
     displayRV
   , displayCV
   , simpleRender
   , simpleRenderR
 ) where
 
-import System.Console.AnsiGraph.Internal.Core
-
+import System.Console.Ansigraph.Internal.Core
 import Data.Complex
 
 ---- Graphing Infrastructure  ----

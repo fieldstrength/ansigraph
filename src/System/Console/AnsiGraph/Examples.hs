@@ -1,5 +1,5 @@
 -- | A module that exports some simple demonstrations of how to use the package.
-module System.Console.AnsiGraph.Examples (
+module System.Console.Ansigraph.Examples (
     waveDemo
   , waveDemoR
   , waveDemoP
@@ -7,7 +7,7 @@ module System.Console.AnsiGraph.Examples (
   , demo
 ) where
 
-import System.Console.AnsiGraph.Flex
+import System.Console.Ansigraph
 import System.Console.ANSI
 import Control.Monad (forM_)
 import Data.Complex

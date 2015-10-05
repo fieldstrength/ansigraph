@@ -1,13 +1,9 @@
 {-# LANGUAGE FlexibleInstances #-}
 
--- | A module exporting instances of the 'Graphable' class that rely on
---   the FlexibleInstances extension. Intended to be used by importing
---   the "System.Console.AnsiGraph.Flex" module.
-module System.Console.AnsiGraph.Internal.FlexInstances where
+module System.Console.Ansigraph.Internal.FlexInstances where
 
+import System.Console.Ansigraph.Core
 import Data.Complex
-
-import System.Console.AnsiGraph
 
 
 instance Graphable [Double] where

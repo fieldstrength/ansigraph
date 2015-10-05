@@ -1,4 +1,4 @@
-module System.Console.AnsiGraph.Internal.Core (
+module System.Console.Ansigraph.Internal.Core (
     AnsiColor (..)
   , AGSettings (..)
   , blue, pink, white

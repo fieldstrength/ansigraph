@@ -1,24 +1,39 @@
 name:                ansigraph
-version:             0.0.9.0
+version:             0.1.0.0
 synopsis:            Terminal-based graphing via ANSI and Unicode
 
-description:         An ultralightweight terminal-based graphing utility. Uses unicode
-                     characters and ANSI escape codes to display and animate colored graphs of
-                     vectors/functions in real and complex variables.
+description:         Ansigraph is an ultralightweight terminal-based graphing utility. It uses
+                     unicode characters and ANSI escape codes to display and animate colored graphs
+                     of vectors/functions in real and complex variables.
                      .
+
                      This functionality is provided by a 'Graphable' type class, whose method
-                     'graphWith' draws a graph at the terminal. Another function `animateWith`
-                     takes a list of Graphable elements and displays an animation by rendering them
-                     in sequence. Both of these functions take an options record as an argument.
-                     The 'graph' and 'animate' functions are defined to use the default options,
-                     and the user can define similar functions based on their own settings.
+                     'graphWith' draws a graph at the terminal. Another function 'animateWith' takes
+                     a list of Graphable elements and displays an animation by rendering them in
+                     sequence. Both of these functions take an options record as an argument. The
+                     'graph' and 'animate' functions are defined to use the default options, and the
+                     user can define similar functions based on their own settings.
                      .
-                     The package is intended to be used on of two ways. One can import
-                     "System.Console.AnsiGraph" which provides 'Graphable' instances for newtype
-                     wrappers that contain the data to be graphed. However, if the FlexibleInstances
-                     extension is acceptable, then importing "System.Console.AnsiGraph.Flex" may be
-                     preferable for allowing the functions of the 'Graphable' class to be called
-                     directly on lists of real or complex floating-point data.
+
+                     There are two main ways to use the package.
+
+                     Importing "System.Console.Ansigraph" provides all the functionality we
+                     typically use. This includes the /FlexibleInstances/ extension, which makes it
+                     marginally more convenient to use graphing functions by allowing instances like
+                     'Graphable [Double]'.
+                     .
+
+                     If you want to use the package without activating /FlexibleInstances/ then you
+                     can import "System.Console.Ansigraph.Core", which provides everything except
+                     these instances. To graph you must use one of a handful of newtype wrappers,
+                     namely: 'Graph', 'PosGraph', 'CGraph', 'Mat', 'CMat'. These wrappers are also
+                     available from the standard 'Ansigraph' module.
+                     .
+
+                     The "System.Console.Ansigraph.Examples" module contains examples of all the
+                     graph types with animations of various plane waves, and also shows the
+                     available ANSI colors.
+
 
 homepage:            https://github.com/BlackBrane/ansigraph
 license:             MIT
@@ -36,14 +51,14 @@ source-repository head
   location: git://github.com/BlackBrane/ansigraph.git
 
 library
-  exposed-modules:     System.Console.AnsiGraph,
-                       System.Console.AnsiGraph.Flex,
-                       System.Console.AnsiGraph.Examples
+  exposed-modules:     System.Console.Ansigraph,
+                       System.Console.Ansigraph.Core,
+                       System.Console.Ansigraph.Examples
 
-  other-modules:       System.Console.AnsiGraph.Internal.Core,
-                       System.Console.AnsiGraph.Internal.FlexInstances,
-                       System.Console.AnsiGraph.Internal.Horizontal,
-                       System.Console.AnsiGraph.Internal.Matrix
+  other-modules:       System.Console.Ansigraph.Internal.Core,
+                       System.Console.Ansigraph.Internal.FlexInstances,
+                       System.Console.Ansigraph.Internal.Horizontal,
+                       System.Console.Ansigraph.Internal.Matrix
 
   build-depends:       base >=4.8 && <4.9, ansi-terminal >=0.6 && <0.7
   hs-source-dirs:      src
