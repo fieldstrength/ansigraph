@@ -1,7 +1,7 @@
 # ansigraph
 
 [![Build Status](https://travis-ci.org/BlackBrane/ansigraph.svg?branch=master)](https://travis-ci.org/BlackBrane/ansigraph)
-[![Hackage](https://img.shields.io/hackage/v/ansigraph.svg)]()
+[![Hackage](https://img.shields.io/hackage/v/ansigraph.svg)](http://hackage.haskell.org/package/ansigraph)
 
 __Terminal-based graphing via ANSI and Unicode__
 
@@ -11,7 +11,7 @@ __Terminal-based graphing via ANSI and Unicode__
 
 Ansigraph is an ultralightweight terminal-based graphing utility. It uses Unicode characters and ANSI escape codes to display and animate colored graphs of vectors/functions in real and complex variables.
 
-Specifically, we use the Unicode characters `▁▂▃▄▅▆▇█`, which allows for graphing of quantities in units of 1/8. By utilizing ANSI SGR coloring codes, we can also include a region for negative values by using the same characters and swapping the foreground and background colors. There's also functionality for displaying matrices via the "density"-like characters `░▒▓█`. Both kinds of graphs have complex number versions, which show real and imaginary components separately with distinct colors.
+Specifically we use the Unicode characters `▁▂▃▄▅▆▇█` which allow for graphing of quantities in units of 1/8. By utilizing ANSI SGR coloring codes, we can also include a region for negative values by using the same characters and swapping the foreground and background colors. There's also functionality for displaying matrices via the "density"-like characters `░▒▓█`. Both kinds of graphs have complex number versions, which show real and imaginary components separately with distinct colors.
 
 In all cases the resulting view is necessarily a rough one; the intended role of this library is to provide very easy, low-overhead, "quick and dirty" views of data sets when a more weighty graphing solution would be overkill.
 

@@ -25,8 +25,8 @@ description:         Ansigraph is an ultralightweight terminal-based graphing ut
 
                      If you want to use the package without activating /FlexibleInstances/ then you
                      can import "System.Console.Ansigraph.Core", which provides everything except
-                     these instances. To graph you must use one of a handful of newtype wrappers,
-                     namely: 'Graph', 'PosGraph', 'CGraph', 'Mat', 'CMat'. These wrappers are also
+                     these instances. Then you must use one of a few newtype wrappers, namely:
+                     'Graph', 'PosGraph', 'CGraph', 'Mat', 'CMat'. These wrappers are also
                      available from the standard 'Ansigraph' module.
                      .
 
