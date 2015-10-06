@@ -81,8 +81,8 @@ import System.Console.Ansigraph.Internal.Matrix
 import System.Console.ANSI
 import System.IO (hFlush,stdout)
 import Control.Concurrent (threadDelay)
-import Data.List (intersperse,transpose)
-import Data.Complex (Complex,realPart,imagPart,magnitude)
+import Data.List (intersperse)
+import Data.Complex (Complex)
 
 
 -- | Things that ansigraph knows how to render at the terminal are

@@ -8,7 +8,6 @@ module System.Console.Ansigraph.Internal.Horizontal (
 
 import System.Console.Ansigraph.Internal.Core
 import Data.Complex
-import System.IO (hFlush, stdout)
 
 ---- Graphing Infrastructure  ----
 
@@ -23,9 +22,9 @@ barVals = (+ 0.0625) . (/8) <$> [7,6..0]
    for positive and negative graph regions respectively -}
 
 bars, barsR :: [(Double,Char)]
-bars  = zipWith (,) barVals barChars
+bars  = zip barVals barChars
 
-barsR = zipWith (,) barVals (reverse barChars)
+barsR = zip barVals (reverse barChars)
 
 
 selectBar, selectBarR :: Double -> Char

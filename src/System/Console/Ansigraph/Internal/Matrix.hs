@@ -22,9 +22,9 @@ densityVals = (+ 0.125) . (/4) <$> [3,2,1,0]
          -- = [7/8, 5/8, 3/8, 1/8]
 
 blocks, blocksR :: [(Double,Char)]
-blocks  = zipWith (,) densityVals densityChars
+blocks  = zip densityVals densityChars
 
-blocksR = zipWith (,) densityVals (reverse densityChars)
+blocksR = zip densityVals (reverse densityChars)
 
 
 selectBlock :: Double -> Char

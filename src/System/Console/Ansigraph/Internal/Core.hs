@@ -42,7 +42,7 @@ data AGSettings =
     , framerate :: Int
     -- | How to rescale the size of a vector before displaying it
     --   (which is not implemented yet).
-    , scaling   :: (Int -> Int)
+    , scaling   :: Int -> Int
     }
 
 blue   = AnsiColor Vivid Blue
