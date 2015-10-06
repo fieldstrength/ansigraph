@@ -3,7 +3,7 @@ version:             0.1.0.0
 synopsis:            Terminal-based graphing via ANSI and Unicode
 
 description:         Ansigraph is an ultralightweight terminal-based graphing utility. It uses
-                     unicode characters and ANSI escape codes to display and animate colored graphs
+                     Unicode characters and ANSI escape codes to display and animate colored graphs
                      of vectors/functions in real and complex variables.
                      .
 
