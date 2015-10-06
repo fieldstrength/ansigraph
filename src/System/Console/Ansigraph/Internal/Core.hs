@@ -11,6 +11,7 @@ module System.Console.Ansigraph.Internal.Core (
   , setFG
   , setBG
   , lineClear
+  , clear
   , applyColor
   , colorStr
   , colorStrLn
@@ -47,7 +48,6 @@ data AGSettings =
 blue   = AnsiColor Vivid Blue
 pink   = AnsiColor Vivid Magenta
 white  = AnsiColor Vivid White
-yellow = AnsiColor Vivid Yellow
 
 graphDefaults = AGSettings blue pink white white 15 (max 150)
 
@@ -80,24 +80,27 @@ setFG (AnsiColor ci c) = SetColor Foreground ci c
 setBG :: AnsiColor -> SGR
 setBG (AnsiColor ci c) = SetColor Background ci c
 
--- | Clear any SGR color settings and then print a new line.
+-- | Clear any SGR settings, then print a new line and flush stdout.
 lineClear :: IO ()
 lineClear = setSGR [Reset] >> putStrLn "" >> hFlush stdout
 
--- | Clear any SGR color settings and then print a new line.
+-- | Clear any SGR settings and then flush stdout.
 clear :: IO ()
 clear = setSGR [Reset] >> hFlush stdout
-
 
 -- | Apply both foreground and background color.
 applyColor :: Coloring -> IO ()
 applyColor (Coloring fg bg) = setSGR [setFG fg, setBG bg]
 
+-- | Use a particular ANSI 'Coloring' to print a string at the terminal (without a newline),
+--   then clear all ANSI SGR codes and flush stdout.
 colorStr :: Coloring -> String -> IO ()
 colorStr c s = do applyColor c
                   putStr s
                   clear
 
+-- | Use a particular ANSI 'Coloring' to print a string at the terminal,
+--   then clear all ANSI SGR codes, print a newline and flush stdout.
 colorStrLn :: Coloring -> String -> IO ()
 colorStrLn c s = do applyColor c
                     putStr s

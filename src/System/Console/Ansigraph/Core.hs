@@ -43,7 +43,10 @@ module System.Console.Ansigraph.Core (
   , setFG
   , setBG
   , lineClear
+  , clear
   , applyColor
+  , colorStr
+  , colorStrLn
 
   -- * Graphable wrapper types
   , Graph (..)

@@ -40,11 +40,22 @@ matShow m = let mx = mmax m
 
 -- | Use ANSI coloring (specified by an 'AGSettings') to visually display a Real matrix.
 displayMat :: AGSettings -> [[Double]] -> IO ()
-displayMat s m = mapM_ (colorStrLn (realColors s)) $ matShow m
+displayMat s = mapM_ (colorStrLn (realColors s)) . matShow
+
+
+matShow_Imag :: [[Complex Double]] -> [String]
+matShow_Imag m = let mx = max (mmax $ mmap realPart m)
+                              (mmax $ mmap imagPart m)
+                 in  mmap (selectBlock . (/ mx) . imagPart) m
+
+matShow_Real :: [[Complex Double]] -> [String]
+matShow_Real m = let mx = max (mmax $ mmap realPart m)
+                              (mmax $ mmap imagPart m)
+                 in  mmap (selectBlock . (/ mx) . realPart) m
 
 -- | Use ANSI coloring (specified by an 'AGSettings') to visually display a Complex matrix.
 displayCMat :: AGSettings -> [[Complex Double]] -> IO ()
 displayCMat s m = sequence_ $
   zipWith (\x y -> x >> putStr " " >> y)
-          (colorStr   (realColors s) <$> matShow (mmap realPart m))
-          (colorStrLn (imagColors s) <$> matShow (mmap imagPart m))
+          (colorStr   (realColors s) <$> matShow_Real m)
+          (colorStrLn (imagColors s) <$> matShow_Imag m)
