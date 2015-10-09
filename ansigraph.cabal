@@ -46,9 +46,6 @@ build-type:          Simple
 
 cabal-version:       >=1.10
 
-source-repository head
-  type:     git
-  location: git://github.com/BlackBrane/ansigraph.git
 
 library
   exposed-modules:     System.Console.Ansigraph,
@@ -60,6 +57,23 @@ library
                        System.Console.Ansigraph.Internal.Horizontal,
                        System.Console.Ansigraph.Internal.Matrix
 
-  build-depends:       base >=4.8 && <4.9, ansi-terminal >=0.6 && <0.7
+  build-depends:       base >=4.8 && <4.9,
+                       ansi-terminal >=0.6 && <0.7
   hs-source-dirs:      src
   default-language:    Haskell2010
+
+
+Test-Suite test-ansigraph
+  type:             exitcode-stdio-1.0
+  hs-source-dirs:   test
+  main-is:          test-ansigraph.hs
+  default-language: Haskell2010
+  build-depends:    base == 4.*,
+                    ansigraph,
+                    hspec == 2.*,
+                    QuickCheck == 2.*
+
+
+source-repository head
+  type:     git
+  location: git://github.com/BlackBrane/ansigraph.git

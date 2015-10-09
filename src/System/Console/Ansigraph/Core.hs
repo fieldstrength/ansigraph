@@ -18,7 +18,7 @@
 module System.Console.Ansigraph.Core (
 
   -- * Core Functionality
-  -- *** The Graphable class
+  -- ** The Graphable class
     Graphable (graphWith)
   , graph
   , animateWith
@@ -56,17 +56,20 @@ module System.Console.Ansigraph.Core (
   , CMat (..)
 
   -- * Graphing
-  -- *** Horizontal vector graphing
+  -- *** Horizontal vector graphing (IO actions)
+  , displayPV
   , displayRV
   , displayCV
-  , displayPV
-  , simpleRender
-  , simpleRenderR
+
+  -- *** Horizontal rendering logic (producing strings)
+  , renderPV
+  , renderRV
+  , renderCV
 
   -- *** Matrix graphing
-  , matShow
   , displayMat
   , displayCMat
+  , matShow
 
 -- *** Simple (non-ANSI) graphing for strictly-positive data
   , posgraph
