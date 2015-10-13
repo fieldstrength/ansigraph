@@ -43,6 +43,7 @@ maintainer:          cs.hbar+hs@gmail.com
 copyright:           2015
 category:            Graphics
 build-type:          Simple
+Extra-source-files:  README.md
 
 cabal-version:       >=1.10
 
