@@ -59,7 +59,7 @@ library
                        System.Console.Ansigraph.Internal.Horizontal,
                        System.Console.Ansigraph.Internal.Matrix
 
-  build-depends:       base >=4.8 && <4.9,
+  build-depends:       base >=4.8 && <4.10,
                        ansi-terminal >=0.6 && <0.7
 
   hs-source-dirs:      src
