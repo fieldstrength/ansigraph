@@ -52,7 +52,8 @@ white  = AnsiColor Vivid White
 graphDefaults = AGSettings blue pink white white 15 (max 150)
 
 -- | Holds two 'AnsiColor's representing foreground and background colors for display via ANSI.
-data Coloring = Coloring AnsiColor AnsiColor deriving Show
+data Coloring = Coloring { foreground :: AnsiColor,
+                           background :: AnsiColor } deriving Show
 
 -- | Projection retrieving foreground and background colors
 --   for real number graphs in the form of a 'Coloring'.
@@ -82,7 +83,10 @@ setBG (AnsiColor ci c) = SetColor Background ci c
 
 -- | Clear any SGR settings, then print a new line and flush stdout.
 lineClear :: IO ()
-lineClear = setSGR [Reset] >> putStrLn "" >> hFlush stdout
+lineClear = do
+  setSGR [Reset]
+  putStrLn ""
+  hFlush stdout
 
 -- | Clear any SGR settings and then flush stdout.
 clear :: IO ()
@@ -95,13 +99,15 @@ applyColor (Coloring fg bg) = setSGR [setFG fg, setBG bg]
 -- | Use a particular ANSI 'Coloring' to print a string at the terminal (without a newline),
 --   then clear all ANSI SGR codes and flush stdout.
 colorStr :: Coloring -> String -> IO ()
-colorStr c s = do applyColor c
-                  putStr s
-                  clear
+colorStr c s = do
+  applyColor c
+  putStr s
+  clear
 
 -- | Use a particular ANSI 'Coloring' to print a string at the terminal,
 --   then clear all ANSI SGR codes, print a newline and flush stdout.
 colorStrLn :: Coloring -> String -> IO ()
-colorStrLn c s = do applyColor c
-                    putStr s
-                    lineClear
+colorStrLn c s = do
+  applyColor c
+  putStr s
+  lineClear

@@ -1,5 +1,5 @@
 name:                ansigraph
-version:             0.1.0.0
+version:             0.2.0.0
 synopsis:            Terminal-based graphing via ANSI and Unicode
 
 description:         Ansigraph is an ultralightweight terminal-based graphing utility. It uses
@@ -43,7 +43,8 @@ maintainer:          cs.hbar+hs@gmail.com
 copyright:           2015
 category:            Graphics
 build-type:          Simple
-Extra-source-files:  README.md
+Extra-source-files:  README.md,
+                     img/wavedemo.gif
 
 cabal-version:       >=1.10
 
@@ -64,7 +65,7 @@ library
   default-language:    Haskell2010
 
 
-Test-Suite test-ansigraph
+test-suite test-ansigraph
   type:             exitcode-stdio-1.0
   hs-source-dirs:   test
   main-is:          test-ansigraph.hs
