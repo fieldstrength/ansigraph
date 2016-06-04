@@ -10,8 +10,8 @@ module System.Console.Ansigraph.Internal.Core (
   , invert
   , setFG
   , setBG
-  , lineClear
   , clear
+  , clearLn
   , applyColor
   , colorStr
   , colorStrLn
@@ -81,16 +81,13 @@ setFG (AnsiColor ci c) = SetColor Foreground ci c
 setBG :: AnsiColor -> SGR
 setBG (AnsiColor ci c) = SetColor Background ci c
 
--- | Clear any SGR settings, then print a new line and flush stdout.
-lineClear :: IO ()
-lineClear = do
-  setSGR [Reset]
-  putStrLn ""
-  hFlush stdout
-
 -- | Clear any SGR settings and then flush stdout.
 clear :: IO ()
-clear = setSGR [Reset] >> hFlush stdout
+clear = setSGR [Reset] *> hFlush stdout
+
+-- | Clear any SGR settings, then print a new line and flush stdout.
+clearLn :: IO ()
+clearLn = clear *> putStrLn ""
 
 -- | Apply both foreground and background color.
 applyColor :: Coloring -> IO ()
@@ -110,4 +107,4 @@ colorStrLn :: Coloring -> String -> IO ()
 colorStrLn c s = do
   applyColor c
   putStr s
-  lineClear
+  clearLn

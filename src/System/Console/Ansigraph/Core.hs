@@ -42,8 +42,8 @@ module System.Console.Ansigraph.Core (
   , invert
   , setFG
   , setBG
-  , lineClear
   , clear
+  , clearLn
   , applyColor
   , colorStr
   , colorStrLn
