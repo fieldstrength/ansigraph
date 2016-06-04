@@ -1,7 +1,7 @@
 # ansigraph
 
-[![Build Status](https://travis-ci.org/BlackBrane/ansigraph.svg?branch=master)](https://travis-ci.org/BlackBrane/ansigraph)
 [![Hackage](https://img.shields.io/hackage/v/ansigraph.svg)](http://hackage.haskell.org/package/ansigraph)
+[![Build Status](https://travis-ci.org/BlackBrane/ansigraph.svg?branch=master)](https://travis-ci.org/BlackBrane/ansigraph)
 
 __Terminal-based graphing via ANSI and Unicode__
 

@@ -8,12 +8,16 @@ import Data.Complex
 
 instance Graphable [Double] where
   graphWith = displayRV
+  graphHeight _ = 2
 
 instance Graphable [Complex Double] where
   graphWith = displayCV
+  graphHeight _ = 4
 
 instance Graphable [[Double]] where
   graphWith = displayMat
+  graphHeight = length
 
 instance Graphable [[Complex Double]] where
   graphWith = displayCMat
+  graphHeight = length

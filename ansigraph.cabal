@@ -40,10 +40,10 @@ license:             MIT
 license-file:        LICENSE
 author:              Cliff Harvey
 maintainer:          cs.hbar+hs@gmail.com
-copyright:           2015
+copyright:           2015-2016 Cliff Harvey
 category:            Graphics
 build-type:          Simple
-Extra-source-files:  README.md,
+extra-source-files:  README.md,
                      img/wavedemo.gif
 
 cabal-version:       >=1.10

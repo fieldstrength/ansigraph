@@ -15,8 +15,8 @@
 --
 --   * __By directly importing "System.Console.Ansigraph.Core"__, which does not activate
 --   FlexibleInstances but includes everything else provided by the other module. This just means
---   you must use one of a handful of newtype wrappers, namely: 'Graph', 'PosGraph', 'CGraph',
---   'Mat', 'CMat'. These wrappers are also available from the standard module.
+--   you must use one of a few newtype wrappers, namely: 'Graph', 'PosGraph', 'CGraph',
+--   'Mat', 'CMat'. They are also available from the standard module.
 module System.Console.Ansigraph (
     module System.Console.Ansigraph.Internal.FlexInstances
   , module System.Console.Ansigraph.Core
