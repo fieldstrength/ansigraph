@@ -5,6 +5,7 @@ module System.Console.Ansigraph.Internal.Matrix (
 ) where
 
 import System.Console.Ansigraph.Internal.Core
+
 import Data.Complex
 
 ---- Matrices ----
@@ -21,16 +22,14 @@ densityVals :: [Double]
 densityVals = (+ 0.125) . (/4) <$> [3,2,1,0]
          -- = [7/8, 5/8, 3/8, 1/8]
 
-blocks, blocksR :: [(Double,Char)]
+blocks :: [(Double,Char)]
 blocks  = zip densityVals densityChars
-
-blocksR = zip densityVals (reverse densityChars)
 
 
 selectBlock :: Double -> Char
 selectBlock x = let l = filter (\p -> fst p < abs x) blocks in case l of
-  []     -> ' '
-  (p:ss) -> snd p
+  []    -> ' '
+  (p:_) -> snd p
 
 -- | Given a matrix of Doubles, return the list of strings illustrating the absolute value
 --   of each entry relative to the largest, via unicode chars that denote a particular density.

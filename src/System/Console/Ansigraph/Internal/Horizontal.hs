@@ -8,6 +8,7 @@ module System.Console.Ansigraph.Internal.Horizontal (
 ) where
 
 import System.Console.Ansigraph.Internal.Core
+
 import Data.Complex
 
 ---- Graphing Infrastructure  ----
@@ -32,12 +33,12 @@ selectBar, selectBarR :: Double -> Char
 selectBar x = let l = filter (\p -> fst p < x) bars in
   case l of
        []     -> ' '
-       (p:ss) -> snd p
+       (p:_) -> snd p
 
 selectBarR x = let l = filter (\p -> fst p < x) barsR in
   case l of
        []     -> '█'
-       (p:ss) -> snd p
+       (p:_) -> snd p
 
 
 -- | Simple vector to String rendering that assumes positive input. Yields String of Unicode chars

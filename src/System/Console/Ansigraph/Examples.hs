@@ -9,10 +9,11 @@ module System.Console.Ansigraph.Examples (
 ) where
 
 import System.Console.Ansigraph
+
 import System.Console.ANSI
 import Control.Monad (forM_)
-import System.IO (hFlush, stdout, hSetBuffering, BufferMode(..))
-import Data.Complex
+import System.IO     (hSetBuffering, stdout, BufferMode(..))
+import Data.Complex  (Complex (..), cis, realPart)
 
 
 ---- Wave Demo ----
@@ -26,9 +27,6 @@ deltas = (*) (-pi/10) <$> [0..90]
 
 waves :: [[Complex Double]]
 waves = zipWith (\z -> map (* z)) (cis <$> deltas) $ repeat wave
-
-pwave :: PosGraph
-pwave = PosGraph $ (+1) . realPart <$> wave
 
 rwaves :: [[Double]]
 rwaves = map (map realPart) waves
@@ -55,6 +53,7 @@ waveDemo = animate waves
 colors = [Black,Red,Green,Yellow,Blue,Magenta,Cyan,White]
 intensities = [Dull,Vivid]
 
+ansicolors :: [AnsiColor]
 ansicolors = [ AnsiColor i c | c <- colors, i <- intensities ]
 
 -- | Show all of the available 'AnsiColor's and corresponding 'ColorIntensity', 'Color' pairs.
@@ -66,7 +65,7 @@ showColors = do
     putStrLn $ "  " ++ show c
   setSGR [Reset]
 
-
+cb, bc :: Coloring
 cb = Coloring (AnsiColor Dull Black) (AnsiColor Vivid Cyan)
 bc = invert cb
 

@@ -18,10 +18,9 @@
 --   you must use one of a few newtype wrappers, namely: 'Graph', 'PosGraph', 'CGraph',
 --   'Mat', 'CMat'. They are also available from the standard module.
 module System.Console.Ansigraph (
-    module System.Console.Ansigraph.Internal.FlexInstances
-  , module System.Console.Ansigraph.Core
+  module System.Console.Ansigraph.Core
 ) where
 
 
 import System.Console.Ansigraph.Core
-import System.Console.Ansigraph.Internal.FlexInstances
+import System.Console.Ansigraph.Internal.FlexInstances ()

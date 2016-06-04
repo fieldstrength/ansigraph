@@ -61,15 +61,26 @@ library
 
   build-depends:       base >=4.8 && <4.9,
                        ansi-terminal >=0.6 && <0.7
+
   hs-source-dirs:      src
+
   default-language:    Haskell2010
+
+  ghc-options:         -Wall
+                       -fno-warn-orphans
+                       -fno-warn-unused-do-bind
+                       -fno-warn-missing-signatures
 
 
 test-suite test-ansigraph
   type:             exitcode-stdio-1.0
+
   hs-source-dirs:   test
+
   main-is:          test-ansigraph.hs
+
   default-language: Haskell2010
+
   build-depends:    base == 4.*,
                     ansigraph,
                     hspec == 2.*,
@@ -78,4 +89,5 @@ test-suite test-ansigraph
 
 source-repository head
   type:     git
+
   location: git://github.com/BlackBrane/ansigraph.git

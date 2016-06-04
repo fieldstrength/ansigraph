@@ -3,6 +3,7 @@
 module System.Console.Ansigraph.Internal.FlexInstances where
 
 import System.Console.Ansigraph.Core
+
 import Data.Complex
 
 

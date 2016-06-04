@@ -84,7 +84,6 @@ import System.Console.Ansigraph.Internal.Horizontal
 import System.Console.Ansigraph.Internal.Matrix
 
 import System.Console.ANSI
-import System.IO          (hFlush,stdout)
 import Control.Concurrent (threadDelay)
 import Control.Monad      (replicateM_)
 import Data.Complex       (Complex)
@@ -139,7 +138,7 @@ animationFrame s x = do
 --   'graph'ing each element with a time delay and screen-clear after each.
 --   'AGSettings' are used to determine the time delta and any coloring/scaling options.
 animateWith :: Graphable a => AGSettings -> [a] -> IO ()
-animateWith s []       = return ()
+animateWith _ []       = return ()
 animateWith s [x]      = graphWith s x
 animateWith s (x:y:zs) = animationFrame s x *> animateWith s (y:zs)
 
