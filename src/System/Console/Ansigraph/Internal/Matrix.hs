@@ -1,3 +1,4 @@
+-- | Functionality for graphing 2-dimensional matrices.
 module System.Console.Ansigraph.Internal.Matrix (
     matShow
   , displayMat

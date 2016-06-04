@@ -1,3 +1,4 @@
+-- | Functionality for graphing 1-dimensional vectors.
 module System.Console.Ansigraph.Internal.Horizontal (
     displayRV
   , displayCV

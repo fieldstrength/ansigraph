@@ -1,21 +1,6 @@
-module System.Console.Ansigraph.Internal.Core (
-    AnsiColor (..)
-  , AGSettings (..)
-  , blue, pink, white
-  , graphDefaults
-  , Coloring (..)
-  , realColors
-  , imagColors
-  , colorSets
-  , invert
-  , setFG
-  , setBG
-  , clear
-  , clearLn
-  , applyColor
-  , colorStr
-  , colorStrLn
-) where
+-- | Core functionality of the package. Import from either "System.Console.Ansigraph" or
+--   "System.Console.Ansigraph.Core".
+module System.Console.Ansigraph.Internal.Core where
 
 import System.Console.ANSI
 import System.IO (hFlush, stdout)
@@ -45,10 +30,19 @@ data AGSettings =
     , scaling   :: Int -> Int
     }
 
-blue   = AnsiColor Vivid Blue
-pink   = AnsiColor Vivid Magenta
-white  = AnsiColor Vivid White
 
+-- | 'Vivid' 'Blue' – used as the default real foreground color.
+blue  = AnsiColor Vivid Blue
+
+-- | 'Vivid' 'Magenta' – used as the default foreground color for imaginary
+--   graph component.
+pink  = AnsiColor Vivid Magenta
+
+-- | 'Vivid' 'White' – used as the default graph background color
+--   for both real and imaginary graph components.
+white = AnsiColor Vivid White
+
+-- | Default graph settings.
 graphDefaults = AGSettings blue pink white white 15 (max 150)
 
 -- | Holds two 'AnsiColor's representing foreground and background colors for display via ANSI.
@@ -85,7 +79,7 @@ setBG (AnsiColor ci c) = SetColor Background ci c
 clear :: IO ()
 clear = setSGR [Reset] *> hFlush stdout
 
--- | Clear any SGR settings, then print a new line and flush stdout.
+-- | Clear any SGR settings, flush stdout and print a new line.
 clearLn :: IO ()
 clearLn = clear *> putStrLn ""
 
