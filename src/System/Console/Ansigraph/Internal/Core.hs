@@ -12,8 +12,8 @@ import System.IO (hFlush, stdout)
 data AnsiColor = AnsiColor ColorIntensity Color deriving Show
 
 -- | Record that holds graphing options.
-data AGSettings =
-  AGSettings
+data GraphSettings =
+  GraphSettings
     {
       -- | Foreground color for real number component
       realColor :: AnsiColor
@@ -25,9 +25,7 @@ data AGSettings =
     , imagBG    :: AnsiColor
     -- | Framerate in fps.
     , framerate :: Int
-    -- | How to rescale the size of a vector before displaying it
-    --   (which is not implemented yet).
-    , scaling   :: Int -> Int
+
     }
 
 
@@ -43,7 +41,7 @@ pink  = AnsiColor Vivid Magenta
 white = AnsiColor Vivid White
 
 -- | Default graph settings.
-graphDefaults = AGSettings blue pink white white 15 (max 150)
+graphDefaults = GraphSettings blue pink white white 15
 
 -- | Holds two 'AnsiColor's representing foreground and background colors for display via ANSI.
 data Coloring = Coloring { foreground :: AnsiColor,
@@ -51,16 +49,16 @@ data Coloring = Coloring { foreground :: AnsiColor,
 
 -- | Projection retrieving foreground and background colors
 --   for real number graphs in the form of a 'Coloring'.
-realColors :: AGSettings -> Coloring
+realColors :: GraphSettings -> Coloring
 realColors sets = Coloring (realColor sets) (realBG sets)
 
 -- | Projection retrieving foreground and background colors
 --   for imaginary component of complex number graphs in the form of a 'Coloring'.
-imagColors :: AGSettings -> Coloring
+imagColors :: GraphSettings -> Coloring
 imagColors sets = Coloring (imagColor sets) (imagBG sets)
 
 -- | Retrieves a pair of 'Coloring's for real and imaginary graph components respectively.
-colorSets :: AGSettings -> (Coloring,Coloring)
+colorSets :: GraphSettings -> (Coloring,Coloring)
 colorSets s = (Coloring (realColor s) (realBG s), Coloring (imagColor s) (imagBG s))
 
 -- | Swaps foreground and background colors within a 'Coloring'.

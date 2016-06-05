@@ -74,13 +74,13 @@ renderCV l = let rp = realPart <$> l
 
 -- | ANSI based display for positive real vectors. To be primarily invoked via 'graph', 'graphWith',
 --   'animate', 'animateWith'.
-displayPV :: AGSettings -> [Double] -> IO ()
+displayPV :: GraphSettings -> [Double] -> IO ()
 displayPV s l = let (rp,_) = renderRV l
                     rcol   = realColors s in colorStrLn rcol rp
 
 -- | ANSI based display for real vectors. To be primarily invoked via 'graph', 'graphWith',
 --   'animate', 'animateWith'.
-displayRV :: AGSettings -> [Double] -> IO ()
+displayRV :: GraphSettings -> [Double] -> IO ()
 displayRV s l = let (rp,rm) = renderRV l
                     rcol    = realColors s
   in do colorStrLn rcol          rp
@@ -88,7 +88,7 @@ displayRV s l = let (rp,rm) = renderRV l
 
 -- | ANSI based display for complex vectors. To be primarily invoked via 'graph', 'graphWith',
 --   'animate', 'animateWith'.
-displayCV :: AGSettings -> [Complex Double] -> IO ()
+displayCV :: GraphSettings -> [Complex Double] -> IO ()
 displayCV s l = let (rp,rm,ip,im) = renderCV l
                     (rcol,icol)   = colorSets s
   in do colorStrLn rcol          rp

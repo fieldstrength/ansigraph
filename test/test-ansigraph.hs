@@ -91,7 +91,7 @@ main = hspec $ do
     it "maps non-positive vectors to whitespace" $
       renderPV [-1,-23,-0.02] `shouldBe` "   "
 
-    it "maps empty vectors to empty strings" $
+    it "maps null vectors to null strings" $
       renderPV [] `shouldBe` ""
 
 
@@ -104,11 +104,11 @@ main = hspec $ do
     it "inverts arbitrary vectors consistently" $
       property $ \xs -> renderRV xs == barInvert (renderRV $ negate <$> xs)
 
-    it "maps arbitrary dimensional zero vectors to whitespace, for positive components" $
+    it "maps arbitrary-dimensional zero vectors to whitespace, for positive components" $
       property $ \n -> let (p,m) = renderRV $ replicate n 0
                        in  all isSpace p
 
-    it "maps arbitrary dimensional zero vectors to solid bocks █, for negative components" $
+    it "maps arbitrary-dimensional zero vectors to solid bocks █, for negative components" $
       property $ \n -> let (p,m) = renderRV $ replicate n 0
                        in  all (== '█') m
 

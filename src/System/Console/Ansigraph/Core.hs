@@ -27,7 +27,7 @@ module System.Console.Ansigraph.Core (
   , transientAnimWith
 
   -- *** Graphing options
-  , AGSettings (..)
+  , GraphSettings (..)
 
   -- *** Default options
   , graphDefaults
@@ -100,13 +100,13 @@ import Data.Complex       (Complex)
 class Graphable a where
 
   -- | Render a graph to standard output.
-  graphWith :: AGSettings -> a -> IO ()
+  graphWith :: GraphSettings -> a -> IO ()
 
   -- | The number of vertical lines a graph occupies.
   graphHeight :: a -> Int
 
 -- | Invokes the 'Graphable' type class method 'graphWith' with the
---   default 'AGSettings' record, 'graphDefaults'.
+--   default 'GraphSettings' record, 'graphDefaults'.
 graph :: Graphable a => a -> IO ()
 graph = graphWith graphDefaults
 
@@ -128,7 +128,7 @@ deltaFromFPS fps = 1000000 `div` fps
 clearGraph :: Graphable a => a -> IO ()
 clearGraph = clearBack . graphHeight
 
-animationFrame :: Graphable a => AGSettings -> a -> IO ()
+animationFrame :: Graphable a => GraphSettings -> a -> IO ()
 animationFrame s x = do
   graphWith s x
   threadDelay . deltaFromFPS . framerate $ s
@@ -136,8 +136,8 @@ animationFrame s x = do
 
 -- | Any list of a 'Graphable' type can be made into an animation, by
 --   'graph'ing each element with a time delay and screen-clear after each.
---   'AGSettings' are used to determine the time delta and any coloring/scaling options.
-animateWith :: Graphable a => AGSettings -> [a] -> IO ()
+--   'GraphSettings' are used to determine the time delta and any coloring/scaling options.
+animateWith :: Graphable a => GraphSettings -> [a] -> IO ()
 animateWith _ []       = return ()
 animateWith s [x]      = graphWith s x
 animateWith s (x:y:zs) = animationFrame s x *> animateWith s (y:zs)
@@ -148,7 +148,7 @@ animate :: Graphable a => [a] -> IO ()
 animate = animateWith graphDefaults
 
 -- | Like 'animateWith', only it does not leave the final frame of the animation visible.
-transientAnimWith :: Graphable a => AGSettings -> [a] -> IO ()
+transientAnimWith :: Graphable a => GraphSettings -> [a] -> IO ()
 transientAnimWith = mapM_ . animationFrame
 
 -- | Like 'animate', only it does not leave the final frame of the animation visible.

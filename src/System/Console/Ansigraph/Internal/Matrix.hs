@@ -38,8 +38,8 @@ matShow :: [[Double]] -> [String]
 matShow m = let mx = mmax m
             in  mmap (selectBlock . (/ mx)) m
 
--- | Use ANSI coloring (specified by an 'AGSettings') to visually display a Real matrix.
-displayMat :: AGSettings -> [[Double]] -> IO ()
+-- | Use ANSI coloring (specified by a 'GraphSettings') to visually display a Real matrix.
+displayMat :: GraphSettings -> [[Double]] -> IO ()
 displayMat s = mapM_ (colorStrLn (realColors s)) . matShow
 
 
@@ -53,8 +53,8 @@ matShow_Real m = let mx = max (mmax $ mmap realPart m)
                               (mmax $ mmap imagPart m)
                  in  mmap (selectBlock . (/ mx) . realPart) m
 
--- | Use ANSI coloring (specified by an 'AGSettings') to visually display a Complex matrix.
-displayCMat :: AGSettings -> [[Complex Double]] -> IO ()
+-- | Use ANSI coloring (specified by an 'GraphSettings') to visually display a Complex matrix.
+displayCMat :: GraphSettings -> [[Complex Double]] -> IO ()
 displayCMat s m = sequence_ $
   zipWith (\x y -> x >> putStr " " >> y)
           (colorStr   (realColors s) <$> matShow_Real m)
