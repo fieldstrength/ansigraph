@@ -14,7 +14,6 @@ import System.Console.Ansigraph
 
 import System.Console.ANSI
 import Control.Monad (forM_)
-import System.IO     (hSetBuffering, stdout, BufferMode(..))
 import Data.Complex  (Complex (..), cis, realPart)
 
 
@@ -64,9 +63,14 @@ sx  = [[0,1],[1,0]]
 sI  = [[1,0],[0,1]]
 -- isy = [[0,1],[-1,0]]
 
+-- Time-exponentials of pauli matrices
+-- exp(itσ) = cos(t)I + i sin(t)σ
 sinSX, sinSZ, unitary :: Double -> [[Complex Double]]
 sinSX   t = fromRealMs (mscale (cos t) sI) (mscale (sin t) sx)
 sinSZ   t = fromRealMs (mscale (cos t) sI) (mscale (sin t) sz)
+
+-- The following functions form a quick implementation of the matrix tensor product ('mox').
+-- The details are not really necessary or relevant to use the library, only to make our example.
 
 fromRealVs :: [Double] -> [Double] -> [Complex Double]
 fromRealVs = zipWith (:+)
@@ -107,13 +111,13 @@ ansicolors = [ AnsiColor i c | c <- colors, i <- intensities ]
 showColors = do
   putStrLn "Available colors:"
   forM_ ansicolors $ \c -> do
-    let clr = Coloring white c
+    let clr = Coloring Nothing (Just c)
     colorStr clr $ replicate 20 ' '
-    putStrLn $ "  " ++ show c
+    putStrLn $ "  " ++ show (intensity c) ++ " " ++ show (color c)
   setSGR [Reset]
 
 cb, bc :: Coloring
-cb = Coloring (AnsiColor Dull Black) (AnsiColor Vivid Cyan)
+cb = mkColoring (AnsiColor Dull Black) (AnsiColor Vivid Cyan)
 bc = invert cb
 
 newline = putStrLn ""
@@ -124,15 +128,11 @@ verticalPad io = do
   newline
   newline
 
-disableBuffering = hSetBuffering stdout NoBuffering
 
 -- | Run all of the demos in sequence.
 demo = do
-  disableBuffering
 
-  setSGR [SetConsoleIntensity BoldIntensity]
-  verticalPad $ colorStrLn cb "     Ansigraph demo     "
-  setSGR [SetConsoleIntensity NormalIntensity]
+  verticalPad $ boldStrLn cb "     Ansigraph demo     "
 
   putStr "Positive function graph  "
   colorStrLn bc " cos (x - t) + 1 "

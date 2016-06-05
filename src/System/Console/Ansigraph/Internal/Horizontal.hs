@@ -72,13 +72,13 @@ renderCV l = let rp = realPart <$> l
       selectBarR . (/mx) <$> im)
 
 
--- | ANSI based display for positive real vectors. To be primarily invoked via 'graph', 'graphWith',
+-- | ANSI based display for positive real vectors. Primarily invoked via 'graph', 'graphWith',
 --   'animate', 'animateWith'.
 displayPV :: GraphSettings -> [Double] -> IO ()
 displayPV s l = let (rp,_) = renderRV l
                     rcol   = realColors s in colorStrLn rcol rp
 
--- | ANSI based display for real vectors. To be primarily invoked via 'graph', 'graphWith',
+-- | ANSI based display for real vectors. Primarily invoked via 'graph', 'graphWith',
 --   'animate', 'animateWith'.
 displayRV :: GraphSettings -> [Double] -> IO ()
 displayRV s l = let (rp,rm) = renderRV l
@@ -86,7 +86,7 @@ displayRV s l = let (rp,rm) = renderRV l
   in do colorStrLn rcol          rp
         colorStrLn (invert rcol) rm
 
--- | ANSI based display for complex vectors. To be primarily invoked via 'graph', 'graphWith',
+-- | ANSI based display for complex vectors. Primarily invoked via 'graph', 'graphWith',
 --   'animate', 'animateWith'.
 displayCV :: GraphSettings -> [Complex Double] -> IO ()
 displayCV s l = let (rp,rm,ip,im) = renderCV l

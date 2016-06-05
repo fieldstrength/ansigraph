@@ -38,17 +38,20 @@ module System.Console.Ansigraph.Core (
   , Coloring (..)
 
 -- *** ANSI helpers
+  , mkColoring
   , realColors
   , imagColors
   , colorSets
   , invert
-  , setFG
-  , setBG
+  , interpAnsiColor
+  , setColor
   , clear
   , clearLn
-  , applyColor
+  , applyColoring
   , colorStr
   , colorStrLn
+  , boldStr
+  , boldStrLn
 
   -- * Graphable wrapper types
   , Graph (..)
