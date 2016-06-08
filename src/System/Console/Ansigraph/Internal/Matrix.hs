@@ -5,9 +5,11 @@ module System.Console.Ansigraph.Internal.Matrix (
   , displayCMat
 ) where
 
+
 import System.Console.Ansigraph.Internal.Core
 
 import Data.Complex
+import Data.List (intersperse)
 
 ---- Matrices ----
 
@@ -24,38 +26,60 @@ densityVals = (+ 0.125) . (/4) <$> [3,2,1,0]
          -- = [7/8, 5/8, 3/8, 1/8]
 
 blocks :: [(Double,Char)]
-blocks  = zip densityVals densityChars
+blocks = zip densityVals densityChars
+
+data MatElement = MatElement !Bool {-# UNPACK #-} !Char
+
+elemChar :: MatElement -> Char
+elemChar (MatElement _ c) = c
 
 
-selectBlock :: Double -> Char
-selectBlock x = let l = filter (\p -> fst p < abs x) blocks in case l of
-  []    -> ' '
-  (p:_) -> snd p
+putRealElement :: GraphSettings -> MatElement -> IO ()
+putRealElement s (MatElement b c) = colorStr clring (c : " ")
+  where clr    = if b then realNegColor s else realColor s
+        clring = mkColoring clr (realBG s)
+
+putImagElement :: GraphSettings -> MatElement -> IO ()
+putImagElement s (MatElement b c) = colorStr clring $ c : " "
+  where clr    = if b then imagNegColor s else imagColor s
+        clring = mkColoring clr (imagBG s)
+
+selectMatElement :: Double -> MatElement
+selectMatElement x = let l = filter (\p -> fst p < abs x) blocks in case l of
+  []    -> MatElement False   ' '
+  (p:_) -> MatElement (x < 0) (snd p)
+
+
+matElements :: [[Double]] -> [[MatElement]]
+matElements m = let mx = mmax m
+                in  mmap (selectMatElement . (/ mx)) m
 
 -- | Given a matrix of Doubles, return the list of strings illustrating the absolute value
 --   of each entry relative to the largest, via unicode chars that denote a particular density.
+--   Used for testing purposes.
 matShow :: [[Double]] -> [String]
-matShow m = let mx = mmax m
-            in  mmap (selectBlock . (/ mx)) m
+matShow = mmap elemChar . matElements
+
+newline = putStrLn ""
+
+intersperse' x l = intersperse x l ++ [x]
+
+
+-- | Use ANSI coloring (specified by an 'GraphSettings') to visually display a Real matrix.
+displayMat :: GraphSettings -> [[Double]] -> IO ()
+displayMat s = sequence_ . concat . intersperse' [newline] . displayRealMat s
 
 -- | Use ANSI coloring (specified by a 'GraphSettings') to visually display a Real matrix.
-displayMat :: GraphSettings -> [[Double]] -> IO ()
-displayMat s = mapM_ (colorStrLn (realColors s)) . matShow
+displayRealMat :: GraphSettings -> [[Double]] -> [[IO ()]]
+displayRealMat s = mmap (putRealElement s) . matElements
 
-
-matShow_Imag :: [[Complex Double]] -> [String]
-matShow_Imag m = let mx = max (mmax $ mmap realPart m)
-                              (mmax $ mmap imagPart m)
-                 in  mmap (selectBlock . (/ mx) . imagPart) m
-
-matShow_Real :: [[Complex Double]] -> [String]
-matShow_Real m = let mx = max (mmax $ mmap realPart m)
-                              (mmax $ mmap imagPart m)
-                 in  mmap (selectBlock . (/ mx) . realPart) m
+-- | Use ANSI coloring (specified by a 'GraphSettings') to visually display a Real matrix.
+displayImagMat :: GraphSettings -> [[Double]] -> [[IO ()]]
+displayImagMat s = mmap (putImagElement s) . matElements
 
 -- | Use ANSI coloring (specified by an 'GraphSettings') to visually display a Complex matrix.
 displayCMat :: GraphSettings -> [[Complex Double]] -> IO ()
-displayCMat s m = sequence_ $
-  zipWith (\x y -> x >> putStr " " >> y)
-          (colorStr   (realColors s) <$> matShow_Real m)
-          (colorStrLn (imagColors s) <$> matShow_Imag m)
+displayCMat s m = sequence_ . concat . intersperse' [newline] $
+  zipWith (\xs ys -> xs ++ putStr " " : ys)
+          (displayRealMat s $ mmap realPart m)
+          (displayImagMat s $ mmap imagPart m)

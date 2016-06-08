@@ -31,7 +31,8 @@ module System.Console.Ansigraph.Core (
 
   -- *** Default options
   , graphDefaults
-  , blue, pink, white
+  , blue, pink, white, red, green
+  , noColoring
 
   -- *** ANSI data
   , AnsiColor (..)
@@ -39,6 +40,8 @@ module System.Console.Ansigraph.Core (
 
 -- *** ANSI helpers
   , mkColoring
+  , fromFG
+  , fromBG
   , realColors
   , imagColors
   , colorSets
@@ -77,8 +80,8 @@ module System.Console.Ansigraph.Core (
   , matShow
 
 -- *** Simple (non-ANSI) graphing for strictly-positive data
-  , posgraph
-  , posanim
+  , posGraph
+  , posAnim
 
 ) where
 
@@ -201,9 +204,9 @@ instance Graphable CMat where
 ---- helpers for graphing/animating strictly-positive real functions ----
 
 -- | Display a graph of the supplied (non-negative) real vector.
-posgraph :: [Double] -> IO ()
-posgraph = graph . PosGraph
+posGraph :: [Double] -> IO ()
+posGraph = graph . PosGraph
 
 -- | Display an animation of the supplied list of (non-negative) real vectors.
-posanim :: [[Double]] -> IO ()
-posanim = animate . map PosGraph
+posAnim :: [[Double]] -> IO ()
+posAnim = animate . map PosGraph
