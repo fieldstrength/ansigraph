@@ -24,7 +24,6 @@ import System.Console.Ansigraph
 import System.Console.ANSI
 import Control.Monad      (forM_)
 import Data.Complex       (Complex (..), cis, realPart)
-import Control.Concurrent (threadDelay)
 
 
 ---- Wave Demo ----
@@ -156,9 +155,6 @@ verticalPad io = do
   newline
   newline
 
-pause :: IO ()
-pause = threadDelay 2000000
-
 -- | Displays a legend showing color conventions for supported graph types.
 legend = do
   boldStrLn cb "       Legend       "
@@ -212,7 +208,5 @@ demo = do
   verticalPad matDemoComplex
 
   verticalPad showColors
-
-  pause
 
   verticalPad legend

@@ -31,8 +31,7 @@ description:         Ansigraph is an ultralightweight terminal-based graphing ut
                      .
 
                      The "System.Console.Ansigraph.Examples" module contains examples of all the
-                     graph types with animations of various plane waves, and also shows the
-                     available ANSI colors.
+                     graph types, and also shows the available ANSI colors.
 
 
 homepage:            https://github.com/BlackBrane/ansigraph
@@ -44,6 +43,7 @@ copyright:           2015-2016 Cliff Harvey
 category:            Graphics
 build-type:          Simple
 extra-source-files:  README.md,
+                     CHANGELOG.md,
                      img/wavedemo.gif
 
 cabal-version:       >=1.10
