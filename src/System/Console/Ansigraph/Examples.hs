@@ -24,6 +24,8 @@ import System.Console.Ansigraph
 import System.Console.ANSI
 import Control.Monad      (forM_)
 import Data.Complex       (Complex (..), cis, realPart)
+-- for GHC <= 7.8
+import Control.Applicative
 
 
 ---- Wave Demo ----

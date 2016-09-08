@@ -59,11 +59,11 @@ library
                        System.Console.Ansigraph.Internal.Horizontal,
                        System.Console.Ansigraph.Internal.Matrix
 
-  build-depends:       base >=4.8 && <4.10,
+  build-depends:       base >=4.6 && <4.10,
                        ansi-terminal >=0.6 && <0.7
 
   if (impl(ghc < 8.0))
-    build-depends:     transformers >= 0.4 && <0.5
+    build-depends:     transformers >= 0.3 && <0.5
 
   hs-source-dirs:      src
 
@@ -73,6 +73,7 @@ library
                        -fno-warn-orphans
                        -fno-warn-unused-do-bind
                        -fno-warn-missing-signatures
+                       -fno-warn-unused-imports
 
 
 test-suite test-ansigraph

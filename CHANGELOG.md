@@ -4,6 +4,8 @@
 
 * Change all IO operations to work over any `MonadIO`. Since GHC 8 this is available in `base`, so the dependency on `transformers` is only required for previous versions.
 
+* Support GHC versions back to 7.6.
+
 * Reexport the `Color` and `ColorIntensity` data types from `ansi-terminal` for full use of the range of ANSI colors without importing that package.
 
 ## Version 0.2

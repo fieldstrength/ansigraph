@@ -134,7 +134,7 @@ graph = graphWith graphDefaults
 clearBack :: MonadIO m => Int -> m ()
 clearBack n = do
   putStr' "\r"  -- return cursor to horizontal position 0
-  replicateM_ n (liftIO $ cursorUpLine 1 *> clearLine)
+  replicateM_ n (liftIO $ cursorUpLine 1 >> clearLine)
 
 -- | For some number of frames per second, return the corresponding time delta in microseconds.
 deltaFromFPS :: Int -> Int
@@ -158,7 +158,7 @@ animationFrame s x = do
 animateWith :: MonadIO m => Graphable a => GraphSettings -> [a] -> m ()
 animateWith _ []       = return ()
 animateWith s [x]      = graphWith s x
-animateWith s (x:y:zs) = animationFrame s x *> animateWith s (y:zs)
+animateWith s (x:y:zs) = animationFrame s x >> animateWith s (y:zs)
 
 -- | Perform 'animateWith' using default options. Equivalent to 'graph'ing each member
 --   of the supplied list with a short delay and screen-clear after each.

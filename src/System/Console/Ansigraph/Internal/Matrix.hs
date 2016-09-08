@@ -11,6 +11,8 @@ import System.Console.Ansigraph.Internal.Core
 import Data.Complex
 import Data.List (intersperse)
 import Control.Monad.IO.Class (MonadIO, liftIO)
+-- for GHC <= 7.8
+import Control.Applicative
 
 
 ---- Matrices ----

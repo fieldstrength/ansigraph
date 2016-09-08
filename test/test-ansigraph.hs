@@ -6,6 +6,9 @@ import System.Console.Ansigraph
 import System.Console.Ansigraph.Examples (wave)
 import Data.Complex
 import Data.Char (isSpace)
+-- for GHC <= 7.8
+import Control.Applicative
+
 
 
 ---- For horizontal graphing tests ----

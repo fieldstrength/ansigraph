@@ -5,6 +5,8 @@ module System.Console.Ansigraph.Internal.Core where
 import System.Console.ANSI
 import System.IO (hFlush, stdout)
 import Control.Monad.IO.Class (MonadIO, liftIO)
+-- for GHC <= 7.8
+import Control.Applicative
 
 ---- Basics ----
 
@@ -127,7 +129,7 @@ applyColoring (Coloring fg bg) = liftIO $ do
 
 -- | Clear any SGR settings and then flush stdout.
 clear :: MonadIO m => m ()
-clear = liftIO $ setSGR [Reset] *> hFlush stdout
+clear = liftIO $ setSGR [Reset] >> hFlush stdout
 
 putStrLn', putStr' :: MonadIO m => String -> m ()
 putStrLn' = liftIO . putStrLn
@@ -135,7 +137,7 @@ putStr' = liftIO . putStr
 
 -- | Clear any SGR settings, flush stdout and print a new line.
 clearLn :: MonadIO m => m ()
-clearLn = clear *> putStrLn' ""
+clearLn = clear >> putStrLn' ""
 
 -- | Use a particular ANSI 'Coloring' to print a string at the terminal (without a new line),
 --   then clear all ANSI SGR codes and flush stdout.
@@ -154,13 +156,13 @@ colorStrLn c s = do
   clearLn
 
 -- | Like 'colorStr' but prints bold text.
-boldStr :: Coloring -> String -> IO ()
+boldStr :: MonadIO m => Coloring -> String -> m ()
 boldStr c s = do
   applyColoring c
-  setSGR [SetConsoleIntensity BoldIntensity]
-  putStr s
+  liftIO $ setSGR [SetConsoleIntensity BoldIntensity]
+  putStr' s
   clear
 
 -- | Like 'colorStrLn' but prints bold text.
-boldStrLn :: Coloring -> String -> IO ()
-boldStrLn c s = boldStr c s *> putStrLn' ""
+boldStrLn :: MonadIO m => Coloring -> String -> m ()
+boldStrLn c s = boldStr c s >> putStrLn' ""
