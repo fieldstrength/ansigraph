@@ -77,13 +77,14 @@ fromRealMs :: [[Double]] -> [[Double]] -> [[Complex Double]]
 fromRealMs = zipWith fromRealVs
 
 vox :: Num a => [a] -> [a] -> [a]
-vox v w = concat $ map (flip vscale w) v
+vox v w = concatMap (`vscale` w) v
 
 -- matrix tensor product
-stepOne, stepTwo, mox :: Num a => [[a]] -> [[a]] -> [[a]]
-stepOne m1 m2 = concat $ map (replicate (length m2)) m1
-stepTwo m1 m2 = concat $ replicate (length m1) m2
-mox     m1 m2 = zipWith vox (stepOne m1 m2) (stepTwo m1 m2)
+mox :: Num a => [[a]] -> [[a]] -> [[a]]
+mox m1 m2 = zipWith vox (stepOne m1 m2) (stepTwo m1 m2)
+  where stepOne, stepTwo :: [[a]] -> [[a]] -> [[a]]
+        stepOne x y = concatMap (replicate (length y)) x
+        stepTwo x y = concat $ replicate (length x) y
 
 
 ---- Complex matrix example ----
@@ -116,7 +117,7 @@ matDemoComplex = animate $ unitary <$> slowDeltas
 ---- Real matrix example ----
 
 ry :: Double -> [[Double]]
-ry t = [[cos t, 0, (sin t)]
+ry t = [[cos t, 0, sin t]
        ,[0, 1, 0]
        ,[-(sin t),0,cos t]]
 
