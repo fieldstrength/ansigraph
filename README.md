@@ -7,7 +7,7 @@
 
 __Terminal-based graphing via ANSI and Unicode__
 
-<img src="img/wavedemo.gif">
+![Complex wave demo](img/wavedemo.gif)
 
 ### Overview
 

@@ -51,6 +51,19 @@ red   = AnsiColor Vivid Red
 -- | 'Dull' 'Green' – used as the default foreground color for negative imaginary component.
 green = AnsiColor Dull Green
 
+-- | 'Dull' 'Black'.
+black  = AnsiColor Dull Blue
+
+-- | 'Vivid' 'Yellow'.
+yellow  = AnsiColor Vivid Yellow
+
+-- | 'Vivid' 'Magenta'.
+magenta  = AnsiColor Vivid Magenta
+
+-- | 'Vivid' 'Cyan'.
+cyan  = AnsiColor Vivid Cyan
+
+
 -- | Default graph settings.
 graphDefaults = GraphSettings blue pink red green white white 15
 

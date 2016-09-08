@@ -29,12 +29,18 @@ module System.Console.Ansigraph.Core (
   -- *** Graphing options
   , GraphSettings (..)
 
-  -- *** Default options
+  -- **** Default options
   , graphDefaults
   , blue, pink, white, red, green
   , noColoring
 
   -- *** ANSI data
+  -- **** Basic types from ANSI package
+  , Color (..)
+  , ColorIntensity (..)
+
+
+-- **** Custom composite data types
   , AnsiColor (..)
   , Coloring (..)
 
@@ -83,6 +89,9 @@ module System.Console.Ansigraph.Core (
   , posGraph
   , posAnim
 
+-- *** For clearing
+  , clearBack
+
 ) where
 
 import System.Console.Ansigraph.Internal.Core
@@ -119,6 +128,8 @@ graph = graphWith graphDefaults
 
 ---- IO / ANSI helpers ----
 
+-- | Clear the last @n@ lines of terminal text. Used to make graph animations. Rexported as
+--   a handy convenience for other uses.
 clearBack :: Int -> IO ()
 clearBack n = do
   putStr "\r"  -- return cursor to horizontal position 0

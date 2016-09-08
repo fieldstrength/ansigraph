@@ -1,5 +1,9 @@
 # Ansigraph Changelog
 
+## Version 0.3
+
+* Reexport the `Color` and `ColorIntensity` data types from `ansi-terminal` for full use of the range of ANSI colors without importing that package.
+
 ## Version 0.2
 
 * Improved method of displaying animations so that successive frames overwrite previous ones instead of generating many pages of output. This requires the addition of the `graphHeight :: Graphable a => a -> Int` type class method.
