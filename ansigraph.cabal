@@ -1,5 +1,5 @@
 name:                ansigraph
-version:             0.3.0.0
+version:             0.3.0.1
 synopsis:            Terminal-based graphing via ANSI and Unicode
 
 description:         Ansigraph is an ultralightweight terminal-based graphing utility. It uses

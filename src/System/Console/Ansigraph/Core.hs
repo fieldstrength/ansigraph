@@ -123,7 +123,7 @@ class Graphable a where
 
 -- | Invokes the 'Graphable' type class method 'graphWith' with the
 --   default 'GraphSettings' record, 'graphDefaults'.
-graph :: Graphable a => a -> IO ()
+graph :: MonadIO m => Graphable a => a -> m ()
 graph = graphWith graphDefaults
 
 
@@ -216,9 +216,9 @@ instance Graphable CMat where
 ---- helpers for graphing/animating strictly-positive real functions ----
 
 -- | Display a graph of the supplied (non-negative) real vector.
-posGraph :: [Double] -> IO ()
+posGraph :: MonadIO m => [Double] -> m ()
 posGraph = graph . PosGraph
 
 -- | Display an animation of the supplied list of (non-negative) real vectors.
-posAnim :: [[Double]] -> IO ()
+posAnim :: MonadIO m => [[Double]] -> m ()
 posAnim = animate . map PosGraph
