@@ -10,6 +10,8 @@ import System.Console.Ansigraph.Internal.Core
 
 import Data.Complex
 import Data.List (intersperse)
+import Control.Monad.IO.Class (MonadIO, liftIO)
+
 
 ---- Matrices ----
 
@@ -34,12 +36,12 @@ elemChar :: MatElement -> Char
 elemChar (MatElement _ c) = c
 
 
-putRealElement :: GraphSettings -> MatElement -> IO ()
+putRealElement :: MonadIO m => GraphSettings -> MatElement -> m ()
 putRealElement s (MatElement b c) = colorStr clring (c : " ")
   where clr    = if b then realNegColor s else realColor s
         clring = mkColoring clr (realBG s)
 
-putImagElement :: GraphSettings -> MatElement -> IO ()
+putImagElement :: MonadIO m => GraphSettings -> MatElement -> m ()
 putImagElement s (MatElement b c) = colorStr clring $ c : " "
   where clr    = if b then imagNegColor s else imagColor s
         clring = mkColoring clr (imagBG s)
@@ -60,26 +62,26 @@ matElements m = let mx = mmax m
 matShow :: [[Double]] -> [String]
 matShow = mmap elemChar . matElements
 
-newline = putStrLn ""
+newline = putStrLn' ""
 
 intersperse' x l = intersperse x l ++ [x]
 
 
 -- | Use ANSI coloring (specified by an 'GraphSettings') to visually display a Real matrix.
-displayMat :: GraphSettings -> [[Double]] -> IO ()
-displayMat s = sequence_ . concat . intersperse' [newline] . displayRealMat s
+displayMat :: MonadIO m => GraphSettings -> [[Double]] -> m ()
+displayMat s = liftIO . sequence_ . concat . intersperse' [newline] . displayRealMat s
 
 -- | Use ANSI coloring (specified by a 'GraphSettings') to visually display a Real matrix.
-displayRealMat :: GraphSettings -> [[Double]] -> [[IO ()]]
+displayRealMat :: MonadIO m => GraphSettings -> [[Double]] -> [[m ()]]
 displayRealMat s = mmap (putRealElement s) . matElements
 
 -- | Use ANSI coloring (specified by a 'GraphSettings') to visually display a Real matrix.
-displayImagMat :: GraphSettings -> [[Double]] -> [[IO ()]]
+displayImagMat :: MonadIO m => GraphSettings -> [[Double]] -> [[m ()]]
 displayImagMat s = mmap (putImagElement s) . matElements
 
 -- | Use ANSI coloring (specified by an 'GraphSettings') to visually display a Complex matrix.
-displayCMat :: GraphSettings -> [[Complex Double]] -> IO ()
-displayCMat s m = sequence_ . concat . intersperse' [newline] $
+displayCMat :: MonadIO m => GraphSettings -> [[Complex Double]] -> m ()
+displayCMat s m = liftIO . sequence_ . concat . intersperse' [newline] $
   zipWith (\xs ys -> xs ++ putStr " " : ys)
           (displayRealMat s $ mmap realPart m)
           (displayImagMat s $ mmap imagPart m)

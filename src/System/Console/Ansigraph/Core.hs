@@ -99,9 +99,10 @@ import System.Console.Ansigraph.Internal.Horizontal
 import System.Console.Ansigraph.Internal.Matrix
 
 import System.Console.ANSI
-import Control.Concurrent (threadDelay)
-import Control.Monad      (replicateM_)
-import Data.Complex       (Complex)
+import Control.Concurrent     (threadDelay)
+import Control.Monad          (replicateM_)
+import Data.Complex           (Complex)
+import Control.Monad.IO.Class (MonadIO, liftIO)
 
 
 -- | Things that ansigraph knows how to render at the terminal are instances of this class.
@@ -115,7 +116,7 @@ import Data.Complex       (Complex)
 class Graphable a where
 
   -- | Render a graph to standard output.
-  graphWith :: GraphSettings -> a -> IO ()
+  graphWith :: MonadIO m => GraphSettings -> a -> m ()
 
   -- | The number of vertical lines a graph occupies.
   graphHeight :: a -> Int
@@ -130,10 +131,10 @@ graph = graphWith graphDefaults
 
 -- | Clear the last @n@ lines of terminal text. Used to make graph animations. Rexported as
 --   a handy convenience for other uses.
-clearBack :: Int -> IO ()
+clearBack :: MonadIO m => Int -> m ()
 clearBack n = do
-  putStr "\r"  -- return cursor to horizontal position 0
-  replicateM_ n (cursorUpLine 1 *> clearLine)
+  putStr' "\r"  -- return cursor to horizontal position 0
+  replicateM_ n (liftIO $ cursorUpLine 1 *> clearLine)
 
 -- | For some number of frames per second, return the corresponding time delta in microseconds.
 deltaFromFPS :: Int -> Int
@@ -142,34 +143,34 @@ deltaFromFPS fps = 1000000 `div` fps
 
 ---- Animation ----
 
-clearGraph :: Graphable a => a -> IO ()
+clearGraph :: MonadIO m => Graphable a => a -> m ()
 clearGraph = clearBack . graphHeight
 
-animationFrame :: Graphable a => GraphSettings -> a -> IO ()
+animationFrame :: MonadIO m => Graphable a => GraphSettings -> a -> m ()
 animationFrame s x = do
   graphWith s x
-  threadDelay . deltaFromFPS . framerate $ s
+  liftIO . threadDelay . deltaFromFPS . framerate $ s
   clearGraph x
 
 -- | Any list of a 'Graphable' type can be made into an animation, by
 --   'graph'ing each element with a time delay and screen-clear after each.
 --   'GraphSettings' are used to determine the time delta and any coloring/scaling options.
-animateWith :: Graphable a => GraphSettings -> [a] -> IO ()
+animateWith :: MonadIO m => Graphable a => GraphSettings -> [a] -> m ()
 animateWith _ []       = return ()
 animateWith s [x]      = graphWith s x
 animateWith s (x:y:zs) = animationFrame s x *> animateWith s (y:zs)
 
 -- | Perform 'animateWith' using default options. Equivalent to 'graph'ing each member
 --   of the supplied list with a short delay and screen-clear after each.
-animate :: Graphable a => [a] -> IO ()
+animate :: MonadIO m => Graphable a => [a] -> m ()
 animate = animateWith graphDefaults
 
 -- | Like 'animateWith', only it does not leave the final frame of the animation visible.
-transientAnimWith :: Graphable a => GraphSettings -> [a] -> IO ()
+transientAnimWith :: MonadIO m => Graphable a => GraphSettings -> [a] -> m ()
 transientAnimWith = mapM_ . animationFrame
 
 -- | Like 'animate', only it does not leave the final frame of the animation visible.
-transientAnim :: Graphable a => [a] -> IO ()
+transientAnim :: (MonadIO m, Graphable a) => [a] -> m ()
 transientAnim = transientAnimWith graphDefaults
 
 

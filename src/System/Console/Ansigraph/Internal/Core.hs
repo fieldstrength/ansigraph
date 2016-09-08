@@ -4,6 +4,7 @@ module System.Console.Ansigraph.Internal.Core where
 
 import System.Console.ANSI
 import System.IO (hFlush, stdout)
+import Control.Monad.IO.Class (MonadIO, liftIO)
 
 ---- Basics ----
 
@@ -97,14 +98,6 @@ colorSets s = (realColors s, imagColors s)
 invert :: Coloring -> Coloring
 invert (Coloring fg bg) = Coloring bg fg
 
--- | The SGR command corresponding to a particular 'ConsoleLayer' and 'AnsiColor'.
-interpAnsiColor :: ConsoleLayer -> AnsiColor -> SGR
-interpAnsiColor l (AnsiColor i c) = SetColor l i c
-
--- | Set the given 'AnsiColor' on the given 'ConsoleLayer'.
-setColor :: ConsoleLayer -> AnsiColor -> IO ()
-setColor l c = setSGR [interpAnsiColor l c]
-
 -- | Easily create a 'Coloring' by specifying the background 'AnsiColor' and no custom foreground.
 fromBG :: AnsiColor -> Coloring
 fromBG c = Coloring Nothing (Just c)
@@ -113,39 +106,51 @@ fromBG c = Coloring Nothing (Just c)
 fromFG :: AnsiColor -> Coloring
 fromFG c = Coloring (Just c) Nothing
 
+-- | The SGR command corresponding to a particular 'ConsoleLayer' and 'AnsiColor'.
+interpAnsiColor :: ConsoleLayer -> AnsiColor -> SGR
+interpAnsiColor l (AnsiColor i c) = SetColor l i c
+
 -- | Produce a (possibly empty) list of 'SGR' commands from a 'ConsoleLayer' and 'AnsiColor'.
 --   An empty 'SGR' list is equivalent to 'Reset'.
 sgrList :: ConsoleLayer -> Maybe AnsiColor -> [SGR]
-sgrList l = fmap (interpAnsiColor l) . maybe [] (\x -> [x])
+sgrList l = fmap (interpAnsiColor l) . maybe [] pure
+
+-- | Set the given 'AnsiColor' on the given 'ConsoleLayer'.
+setColor :: MonadIO m => ConsoleLayer -> AnsiColor -> m ()
+setColor l c = liftIO $ setSGR [interpAnsiColor l c]
 
 -- | Apply both foreground and background color contained in a 'Coloring'.
-applyColoring :: Coloring -> IO ()
-applyColoring (Coloring fg bg) = do
+applyColoring :: MonadIO m => Coloring -> m ()
+applyColoring (Coloring fg bg) = liftIO $ do
   setSGR [Reset]
   setSGR $ sgrList Foreground fg ++ sgrList Background bg
 
 -- | Clear any SGR settings and then flush stdout.
-clear :: IO ()
-clear = setSGR [Reset] *> hFlush stdout
+clear :: MonadIO m => m ()
+clear = liftIO $ setSGR [Reset] *> hFlush stdout
+
+putStrLn', putStr' :: MonadIO m => String -> m ()
+putStrLn' = liftIO . putStrLn
+putStr' = liftIO . putStr
 
 -- | Clear any SGR settings, flush stdout and print a new line.
-clearLn :: IO ()
-clearLn = clear *> putStrLn ""
+clearLn :: MonadIO m => m ()
+clearLn = clear *> putStrLn' ""
 
 -- | Use a particular ANSI 'Coloring' to print a string at the terminal (without a new line),
 --   then clear all ANSI SGR codes and flush stdout.
-colorStr :: Coloring -> String -> IO ()
+colorStr :: MonadIO m => Coloring -> String -> m ()
 colorStr c s = do
   applyColoring c
-  putStr s
+  putStr' s
   clear
 
 -- | Use a particular ANSI 'Coloring' to print a string at the terminal,
 --   then clear all ANSI SGR codes, flush stdout and print a new line.
-colorStrLn :: Coloring -> String -> IO ()
+colorStrLn :: MonadIO m => Coloring -> String -> m ()
 colorStrLn c s = do
   applyColoring c
-  putStr s
+  putStr' s
   clearLn
 
 -- | Like 'colorStr' but prints bold text.
@@ -158,8 +163,4 @@ boldStr c s = do
 
 -- | Like 'colorStrLn' but prints bold text.
 boldStrLn :: Coloring -> String -> IO ()
-boldStrLn c s = do
-  applyColoring c
-  setSGR [SetConsoleIntensity BoldIntensity]
-  putStr s
-  clearLn
+boldStrLn c s = boldStr c s *> putStrLn' ""

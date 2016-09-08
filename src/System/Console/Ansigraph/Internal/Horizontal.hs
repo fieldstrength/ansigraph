@@ -11,6 +11,7 @@ module System.Console.Ansigraph.Internal.Horizontal (
 import System.Console.Ansigraph.Internal.Core
 
 import Data.Complex
+import Control.Monad.IO.Class (MonadIO)
 
 ---- Graphing Infrastructure  ----
 
@@ -74,13 +75,13 @@ renderCV l = let rp = realPart <$> l
 
 -- | ANSI based display for positive real vectors. Primarily invoked via 'graph', 'graphWith',
 --   'animate', 'animateWith'.
-displayPV :: GraphSettings -> [Double] -> IO ()
+displayPV :: MonadIO m => GraphSettings -> [Double] -> m ()
 displayPV s l = let (rp,_) = renderRV l
                     rcol   = realColors s in colorStrLn rcol rp
 
 -- | ANSI based display for real vectors. Primarily invoked via 'graph', 'graphWith',
 --   'animate', 'animateWith'.
-displayRV :: GraphSettings -> [Double] -> IO ()
+displayRV :: MonadIO m => GraphSettings -> [Double] -> m ()
 displayRV s l = let (rp,rm) = renderRV l
                     rcol    = realColors s
   in do colorStrLn rcol          rp
@@ -88,7 +89,7 @@ displayRV s l = let (rp,rm) = renderRV l
 
 -- | ANSI based display for complex vectors. Primarily invoked via 'graph', 'graphWith',
 --   'animate', 'animateWith'.
-displayCV :: GraphSettings -> [Complex Double] -> IO ()
+displayCV :: MonadIO m => GraphSettings -> [Complex Double] -> m ()
 displayCV s l = let (rp,rm,ip,im) = renderCV l
                     (rcol,icol)   = colorSets s
   in do colorStrLn rcol          rp
