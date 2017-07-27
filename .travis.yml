@@ -1,5 +1,6 @@
-# NB: don't set `language: haskell` here
+# Muli-GHC Travis – https://github.com/hvr/multi-ghc-travis
 
+# NB: don't set `language: haskell` here
 # explicitly request legacy non-sudo based build environment
 
 sudo: required
@@ -8,10 +9,10 @@ sudo: required
 # the last release in a major GHC version. Feel free to omit lines listings versions you don't need/want testing for.
 
 env:
+ - CABALVER=1.24 GHCVER=8.2.1
+ - CABALVER=1.24 GHCVER=8.0.2
  - CABALVER=1.24 GHCVER=7.10.3
- - CABALVER=1.24 GHCVER=8.0.1
  - CABALVER=1.18 GHCVER=7.8.4
- - CABALVER=1.18 GHCVER=7.6.3
 
 # - CABALVER=head GHCVER=head   # see section about GHC HEAD snapshots
 
@@ -46,5 +47,3 @@ script:
 
  - SRC_TGZ=$(cabal info . | awk '{print $2;exit}').tar.gz &&
    (cd dist && cabal install --force-reinstalls "$SRC_TGZ")
-
-# as suggested by https://github.com/hvr/multi-ghc-travis

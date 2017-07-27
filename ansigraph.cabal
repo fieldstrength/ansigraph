@@ -1,5 +1,5 @@
 name:                ansigraph
-version:             0.3.0.2
+version:             0.3.0.3
 synopsis:            Terminal-based graphing via ANSI and Unicode
 
 description:         Ansigraph is an ultralightweight terminal-based graphing utility. It uses
@@ -59,7 +59,7 @@ library
                        System.Console.Ansigraph.Internal.Horizontal,
                        System.Console.Ansigraph.Internal.Matrix
 
-  build-depends:       base >=4.6 && <4.10,
+  build-depends:       base >=4.6 && <4.11,
                        ansi-terminal >=0.6 && <0.7
 
   if (impl(ghc < 8.0))
