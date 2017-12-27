@@ -2,7 +2,5 @@ flags: {}
 extra-package-dbs: []
 packages:
 - .
-extra-deps:
-- ansi-terminal-0.7.1.1
-- ansigraph-0.3.0.4
-resolver: lts-9.6
+extra-deps: []
+resolver: lts-10.1
