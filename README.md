@@ -1,6 +1,6 @@
 # ansigraph
 
-[![Build Status](https://travis-ci.org/BlackBrane/ansigraph.svg?branch=master)](https://travis-ci.org/BlackBrane/ansigraph)
+[![Build Status](https://travis-ci.org/fieldstrength/ansigraph.svg?branch=master)](https://travis-ci.org/fieldstrength/ansigraph)
 [![Hackage](https://img.shields.io/hackage/v/ansigraph.svg)](http://hackage.haskell.org/package/ansigraph)
 [![Ansigraph on Stackage Nightly](http://stackage.org/package/ansigraph/badge/nightly)](http://stackage.org/nightly/package/ansigraph)
 
